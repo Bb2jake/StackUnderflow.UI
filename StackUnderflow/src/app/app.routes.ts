@@ -8,6 +8,8 @@ const appRoutes: Routes = [
 	{ path: '', component: QuestionListComponent },
 	{ path: 'login', component: LoginComponent },
 	{ path: 'register', component: RegisterComponent },
+	{ path: 'questions', component: QuestionListComponent, canActivate: [AuthGuard] },
+	// { path: 'questions', component: QuestionListComponent, canActivate: [AuthGuard] },
 	{ path: '**', redirectTo: '' }
 ];
 
