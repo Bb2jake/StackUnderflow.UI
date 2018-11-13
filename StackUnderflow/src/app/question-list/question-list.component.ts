@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { QuestionService } from './../../services/question.service';
 import { Question } from 'src/models/question';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -12,7 +13,10 @@ export class QuestionListComponent implements OnInit, OnDestroy {
 	public questions: Question[];
 	public subscribe = true;
 
-	constructor(private questionService: QuestionService) {
+	constructor(
+		private questionService: QuestionService,
+		private router: Router
+		) {
 		this.questionService.questions.pipe(takeWhile(() => this.subscribe)).subscribe(questions => this.questions = questions);
 	}
 
@@ -24,4 +28,7 @@ export class QuestionListComponent implements OnInit, OnDestroy {
 		this.subscribe = false;
 	}
 
+	goToDetailPage(questionId: number) {
+		this.router.navigate([`/questions/${questionId}`]);
+	}
 }

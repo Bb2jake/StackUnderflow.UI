@@ -1,0 +1,17 @@
+<p>
+	Question from: {{ questionDetailDto.question.createdBy}}
+</p>
+
+<div>
+	<div>
+		{{questionDetailDto.question.body}}
+	</div>
+	<div *ngFor="let answerDto of questionDetailDto.answerDtos">
+		<div>
+			{{answerDto.answer.body}}
+		</div>
+		<div *ngFor="let comment of answerDto.comments">
+			{{ comment.body }}
+		</div>
+	</div>
+</div>

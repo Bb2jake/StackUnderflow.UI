@@ -12,13 +12,15 @@ import { RouterModule } from '@angular/router';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { routing } from './app.routes';
 import { QuestionService } from 'src/services/question.service';
+import { QuestionDetailsComponent } from './question-details/question-details.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		LoginComponent,
 		RegisterComponent,
-		QuestionListComponent
+		QuestionListComponent,
+		QuestionDetailsComponent
 	],
 	imports: [
 		BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, RouterModule, routing
