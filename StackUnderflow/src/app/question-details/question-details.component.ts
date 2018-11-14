@@ -1,3 +1,5 @@
+import { CommentService } from './../../services/comment.service';
+import { AnswerService } from './../../services/answer.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { takeWhile, switchMap, map } from 'rxjs/operators';
 import { QuestionService } from './../../services/question.service';
@@ -14,9 +16,8 @@ import { Observable } from 'rxjs';
 export class QuestionDetailsComponent implements OnInit {
 	public questionDetailDto: QuestionDetailDto;
 	public subscribe = true;
-	public questionId: number;
 
-	constructor(private questionService: QuestionService, private activatedRoute: ActivatedRoute) {
+	constructor(private questionService: QuestionService, private answerService: AnswerService, private commentService: CommentService, private activatedRoute: ActivatedRoute) {
 		this.questionService.questionDetailDto.pipe(takeWhile(() => this.subscribe)).subscribe(questionDetailDto => {
 			this.questionDetailDto = questionDetailDto;
 		});
@@ -25,12 +26,30 @@ export class QuestionDetailsComponent implements OnInit {
 	ngOnInit() {
 		this.activatedRoute.paramMap.pipe(
 			map((params) => {
-				// (+) before `params.get()` turns the string into a number
-				this.questionId = +params.get('questionId');
-				this.questionService.getQuestionDetailDto(this.questionId);
-				console.log(this.questionId);
+				this.questionService.activeQuestionId = +params.get('questionId');
+				this.questionService.getQuestionDetailDto();
+				// this.questionService.activeQuestionId = this.questionId;
 			})
 		).subscribe();
 	}
 
+	// create answer
+	createAnswer(body: string) {
+		this.answerService.createAnswer(body);
+	}
+
+	// accept answer
+	acceptAnswer(answerId: number) {
+		this.questionDetailDto.question.acceptedAnswerId = answerId;
+		this.questionService.acceptAnswer(this.questionDetailDto.question);
+	}
+
+	// vote on answer
+	voteOnAnswer(answerId: number, upvote: boolean) {
+		this.answerService.voteOnAnswer(answerId, upvote);
+	}
+
+	createComment(answerId: number, body: string) {
+		this.commentService.createComment(answerId, body);
+	}
 }

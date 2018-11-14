@@ -7,10 +7,11 @@ import { Question } from 'src/models/question';
 
 @Injectable()
 export class QuestionService {
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient) { }
 	private apiUrl = env.apiUrl + 'questions/';
 	public questions = new Subject<Question[]>();
 	public questionDetailDto = new Subject<QuestionDetailDto>();
+	public activeQuestionId: number;
 
 	getAllQuestions(): void {
 		this.http.get<Question[]>(this.apiUrl).subscribe(
@@ -23,9 +24,9 @@ export class QuestionService {
 		);
 	}
 
-	getQuestionDetailDto(questionId: number): void {
+	getQuestionDetailDto(): void {
 		this.http
-			.get<QuestionDetailDto>(this.apiUrl + questionId)
+			.get<QuestionDetailDto>(this.apiUrl + this.activeQuestionId)
 			.subscribe(questionDetailDto => {
 				this.questionDetailDto.next(questionDetailDto);
 			});
@@ -43,4 +44,30 @@ export class QuestionService {
 			}
 		);
 	}
+
+	acceptAnswer(question: Question): any {
+		// http put for question. Comes in with the accepted answer value updated.
+		this.http.put(`${this.apiUrl}${question.id}`, question).subscribe(
+			() => {
+				// refresh the questionDetailDto
+				this.getQuestionDetailDto();
+			},
+			err => {
+				console.error(err);
+			}
+		);
+	}
+
+	voteOnQuestion(questionId: number, upvote: boolean): any {
+		this.http.post(`$${this.apiUrl}${questionId}`, upvote).subscribe(
+			() => {
+				this.getAllQuestions();
+				this.getQuestionDetailDto();
+			},
+			err => {
+				console.error(err);
+			}
+		);
+	}
+
 }
