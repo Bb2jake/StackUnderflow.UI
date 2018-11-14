@@ -42,4 +42,8 @@ export class QuestionListComponent implements OnInit, OnDestroy {
 		this.questionService.createQuestion(this.newQuestionBod);
 		this.newQuestionBod = '';
 	}
+
+	voteOnQuestion(questionId: number, upvote: boolean) {
+		this.questionService.voteOnQuestion(questionId, upvote);
+	}
 }
