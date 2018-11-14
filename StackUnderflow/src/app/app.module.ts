@@ -1,3 +1,6 @@
+import { CommentService } from './../services/comment.service';
+import { AnswerService } from './../services/answer.service';
+import { Answer } from './../models/answer';
 import { AuthGuardService } from './../services/auth-guard.service';
 import { AuthService } from 'src/services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -25,7 +28,7 @@ import { QuestionDetailsComponent } from './question-details/question-details.co
 	imports: [
 		BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule, RouterModule, routing
 	],
-	providers: [AuthService, AuthGuardService, QuestionService],
+	providers: [AuthService, AuthGuardService, QuestionService, AnswerService, CommentService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
