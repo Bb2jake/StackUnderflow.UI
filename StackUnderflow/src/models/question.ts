@@ -3,4 +3,5 @@ export class Question {
 	public body: string;
 	public createdBy?: number;
 	public createdDate?: Date;
+	public acceptedAnswerId?: number;
 }
