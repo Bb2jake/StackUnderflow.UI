@@ -47,7 +47,7 @@ export class QuestionService {
 
 	acceptAnswer(question: Question): any {
 		// http put for question. Comes in with the accepted answer value updated.
-		this.http.put(`${this.apiUrl}${question.id}`, question).subscribe(
+		this.http.put(`${this.apiUrl}${question.id}/answer/${question.acceptedAnswerId}`, null).subscribe(
 			() => {
 				// refresh the questionDetailDto
 				this.getQuestionDetailDto();
@@ -59,7 +59,7 @@ export class QuestionService {
 	}
 
 	voteOnQuestion(questionId: number, upvote: boolean): any {
-		this.http.post(`$${this.apiUrl}${questionId}`, upvote).subscribe(
+		this.http.post(`${this.apiUrl}${questionId}?upvote=${upvote}`, null).subscribe(
 			() => {
 				this.getAllQuestions();
 				this.getQuestionDetailDto();

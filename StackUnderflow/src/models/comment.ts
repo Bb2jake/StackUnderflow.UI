@@ -4,5 +4,4 @@ export class Comment {
 	public body: string;
 	public createdBy?: string;
 	public CreatedDate?: Date;
-
 }

@@ -1,45 +1,44 @@
 <h2 class="display-1 text-center">Answers!</h2>
 
 <div class="containter text-center">
-	<h3> Question: {{questionDetailDto?.question.body}}
-	</h3>
-	<p>Created by: {{ questionDetailDto?.question.createdBy}}</p>
+	<h3>Question: {{ questionDetailDto?.question.body }}</h3>
+	<p>Created by: {{ questionDetailDto?.question.createdBy }}</p>
+	<p>Votes: {{questionDetailDto?.question.votes}} </p>
+	<div class="btn btn-info btn-sm" (click)="voteOnQuestion(true)">Upvote</div>
+	<div class="btn btn-info btn-sm" (click)="voteOnQuestion(false)">Downvote</div>
+	<form class="bs-example bs-example-form" role="form">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="input-group">
+					<input [(ngModel)]="newAnswerBody" id="answerInput" name="newAnswer" type="text" class="form-control" />
+					<span class="input-group-btn"> <button (click)="createAnswer()" class="btn btn-default" type="submit">Post an answer!</button> </span>
+				</div>
+			</div>
+		</div>
+	</form>
 	<div class="container list-group" *ngFor="let answerDto of questionDetailDto?.answerDtos; let i = index">
 		<div class="list-group-item list-group-item-action flex-column align-items-start">
 			<div class="list-group-item list-group-item-action flex-column align-items-start">
-				<div class="list-group-item list-group-item-action flex-column align-items-start">
-					{{answerDto.answer.body}}
-				</div>
+				<div class="list-group-item list-group-item-action flex-column align-items-start">{{ answerDto.answer.body }} - {{ answerDto.answer.createdBy }} {{ answerDto.answer.id == questionDetailDto.question.acceptedAnswerId ? '(ACCEPTED ANSWER)' : '' }}</div>
+				<small>Votes: {{answerDto.votes}}</small>
 				<div>
-					<div class="btn btn-info btn-sm" (click)="voteOnAnswer(answerDto.answer.id, true)">
-						Upvote
-					</div>
-					<div class="btn btn-info btn-sm" (click)="voteOnAnswer(answerDto.answer.id, false)">
-						Downvote
-					</div>
-					<div class="btn btn-info btn-sm" (click)="acceptAnswer(answerDto.answer.id)">
-						Accept Answer
-					</div>
+					<div class="btn btn-info btn-sm" (click)="voteOnAnswer(answerDto.answer.id, true)">Upvote</div>
+					<div class="btn btn-info btn-sm" (click)="voteOnAnswer(answerDto.answer.id, false)">Downvote</div>
+					<div *ngIf="!questionDetailDto.question.acceptedAnswerId && questionDetailDto.question.createdBy == username" class="btn btn-info btn-sm" (click)="acceptAnswer(answerDto.answer.id)">Accept Answer</div>
 				</div>
 			</div>
 
-			<div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let comment of answerDto.comments">
-				{{ comment.body }}
-			</div>
+			<div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let comment of answerDto.comments">{{ comment.body }} - {{ comment.createdBy }} </div>
 			<form class="bs-example bs-example-form" role="form">
 				<div class="row">
 					<div class="col-lg-6">
 						<div class="input-group">
-							<input id="input{{i}}" name="newComment" type="text" class="form-control">
-							<span class="input-group-btn">
-								<button (click)="createComment(answerDto.answer.id, i)" class="btn btn-default" type="submit">
-									Post a comment!
-								</button>
-							</span>
-
+							<input id="input{{i}}" name="newComment" type="text" class="form-control" />
+							<span class="input-group-btn"> <button (click)="createComment(answerDto.answer.id, i)" class="btn btn-default" type="submit">Post a comment!</button> </span>
 						</div>
 					</div>
-
 				</div>
 			</form>
 		</div>
+	</div>
+</div>

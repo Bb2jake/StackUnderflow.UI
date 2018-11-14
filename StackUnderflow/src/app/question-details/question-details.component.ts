@@ -1,3 +1,4 @@
+import { AuthService } from 'src/services/auth.service';
 import { CommentService } from './../../services/comment.service';
 import { AnswerService } from './../../services/answer.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -15,12 +16,16 @@ import { Observable } from 'rxjs';
 })
 export class QuestionDetailsComponent implements OnInit {
 	public questionDetailDto: QuestionDetailDto;
-	public newCommentBody: string;
+	public newAnswerBody: string;
 	public subscribe = true;
+	public username: string;
 
-	constructor(private questionService: QuestionService, private answerService: AnswerService, private commentService: CommentService, private activatedRoute: ActivatedRoute) {
+	constructor(private questionService: QuestionService, private answerService: AnswerService, private commentService: CommentService, private activatedRoute: ActivatedRoute, private authService: AuthService) {
 		this.questionService.questionDetailDto.pipe(takeWhile(() => this.subscribe)).subscribe(questionDetailDto => {
 			this.questionDetailDto = questionDetailDto;
+		});
+		authService.userName.pipe(takeWhile(() => this.subscribe)).subscribe(username => {
+			this.username = username;
 		});
 	}
 
@@ -35,8 +40,9 @@ export class QuestionDetailsComponent implements OnInit {
 	}
 
 	// create answer
-	createAnswer(body: string) {
-		this.answerService.createAnswer(body);
+	createAnswer() {
+		this.answerService.createAnswer(this.newAnswerBody);
+		this.newAnswerBody = '';
 	}
 
 	// accept answer
@@ -45,13 +51,17 @@ export class QuestionDetailsComponent implements OnInit {
 		this.questionService.acceptAnswer(this.questionDetailDto.question);
 	}
 
+	voteOnQuestion(upvote: boolean) {
+		this.questionService.voteOnQuestion(this.questionService.activeQuestionId, upvote);
+	}
+
 	// vote on answer
 	voteOnAnswer(answerId: number, upvote: boolean) {
 		this.answerService.voteOnAnswer(answerId, upvote);
 	}
 
 	createComment(answerId: number, index: number) {
-		const input = document.getElementById('input' + index);
+		const input: any = document.getElementById('input' + index);
 		const body = input.value;
 		this.commentService.createComment(answerId, body);
 	}
