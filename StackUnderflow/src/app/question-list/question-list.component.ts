@@ -12,12 +12,14 @@ import { takeWhile } from 'rxjs/operators';
 export class QuestionListComponent implements OnInit, OnDestroy {
 	public questions: Question[];
 	public subscribe = true;
-
+	public newQuestionBod: string;
 	constructor(
 		private questionService: QuestionService,
 		private router: Router
-		) {
-		this.questionService.questions.pipe(takeWhile(() => this.subscribe)).subscribe(questions => this.questions = questions);
+	) {
+		this.questionService.questions
+			.pipe(takeWhile(() => this.subscribe))
+			.subscribe(questions => (this.questions = questions));
 	}
 
 	ngOnInit() {
@@ -30,5 +32,13 @@ export class QuestionListComponent implements OnInit, OnDestroy {
 
 	goToDetailPage(questionId: number) {
 		this.router.navigate([`/questions/${questionId}`]);
+	}
+
+	createQuestion() {
+		if (!this.newQuestionBod) {
+			return;
+		}
+		this.questionService.createQuestion(this.newQuestionBod);
+		this.newQuestionBod = '';
 	}
 }
