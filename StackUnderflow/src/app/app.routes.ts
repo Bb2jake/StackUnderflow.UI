@@ -1,3 +1,4 @@
+import { QuestionDetailsComponent } from './question-details/question-details.component';
 import { LoginComponent } from './login/login.component';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { Routes, CanActivate, RouterModule } from '@angular/router';
@@ -9,7 +10,7 @@ const appRoutes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{ path: 'register', component: RegisterComponent },
 	{ path: 'questions', component: QuestionListComponent },
-	{ path: 'questions/:questionId', component: QuestionListComponent },
+	{ path: 'questions/:questionId', component: QuestionDetailsComponent },
 	{ path: '**', redirectTo: '' }
 ];
 
