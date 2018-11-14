@@ -16,21 +16,17 @@ import { Observable } from 'rxjs';
 export class QuestionDetailsComponent implements OnInit {
 	public questionDetailDto: QuestionDetailDto;
 	public subscribe = true;
-	public questionId: number;
 
 	constructor(private questionService: QuestionService, private answerService: AnswerService, private commentService: CommentService, private activatedRoute: ActivatedRoute) {
 		this.questionService.questionDetailDto.pipe(takeWhile(() => this.subscribe)).subscribe(questionDetailDto => {
 			this.questionDetailDto = questionDetailDto;
-		});
-		this.questionService.activeQuestionId.pipe(takeWhile(() => this.subscribe)).subscribe(activeQuestionId => {
-			this.questionId = activeQuestionId;
 		});
 	}
 
 	ngOnInit() {
 		this.activatedRoute.paramMap.pipe(
 			map((params) => {
-				this.questionService.activeQuestionId.next(+params.get('questionId'));
+				this.questionService.activeQuestionId = +params.get('questionId');
 				this.questionService.getQuestionDetailDto();
 				// this.questionService.activeQuestionId = this.questionId;
 			})

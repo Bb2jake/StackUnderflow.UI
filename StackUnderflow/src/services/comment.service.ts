@@ -7,12 +7,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class CommentService {
 	private apiUrl = env.apiUrl + 'comments/';
-	private activeQuestionId: number;
 
 	constructor(private http: HttpClient, private questionService: QuestionService) {
-		this.questionService.activeQuestionId.subscribe(questionId => {
-			this.activeQuestionId = questionId;
-		});
 	}
 
 	createComment(answerId: number, body: string): void {
