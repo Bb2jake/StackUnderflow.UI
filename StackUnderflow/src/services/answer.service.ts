@@ -28,7 +28,7 @@ export class AnswerService {
 
 	voteOnAnswer(answerId: number, upvote: boolean): any {
 		// http put for answer
-		this.http.post(`$${this.apiUrl}${answerId}`, upvote).subscribe(
+		this.http.put(`${this.apiUrl}${answerId}?upvote=${upvote}`, null).subscribe(
 			() => {
 				this.questionService.getQuestionDetailDto();
 			},

@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class QuestionDetailsComponent implements OnInit {
 	public questionDetailDto: QuestionDetailDto;
+	public newCommentBody: string;
 	public subscribe = true;
 
 	constructor(private questionService: QuestionService, private answerService: AnswerService, private commentService: CommentService, private activatedRoute: ActivatedRoute) {
@@ -49,7 +50,9 @@ export class QuestionDetailsComponent implements OnInit {
 		this.answerService.voteOnAnswer(answerId, upvote);
 	}
 
-	createComment(answerId: number, body: string) {
+	createComment(answerId: number, index: number) {
+		const input = document.getElementById('input' + index);
+		const body = input.value;
 		this.commentService.createComment(answerId, body);
 	}
 }

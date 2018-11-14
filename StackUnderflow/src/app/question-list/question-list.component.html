@@ -16,7 +16,7 @@
 
 		</div>
 	</form>
-	<div class="list-group " *ngFor="let question of questions" (click)="goToDetailPage(question.id)" >
+	<div class="list-group" *ngFor="let question of questions" (click)="goToDetailPage(question.id)" >
 		<div class="list-group-item list-group-item-action flex-column align-items-start ">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">{{question.body}}</h5>
