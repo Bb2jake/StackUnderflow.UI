@@ -1,3 +1,27 @@
-<ul>
-	<li *ngFor="let question of questions" (click)="goToDetailPage(question.id)">{{question.body}}</li>
-</ul>
+<div class="container">
+	<form class="bs-example bs-example-form" role="form">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="input-group">
+					<input name="newquestion" [(ngModel)]="newQuestionBod" type="text" class="form-control">
+					<span class="input-group-btn">
+						<button (click)="createQuestion()" class="btn btn-default" type="button">
+							Ask a question!
+						</button>
+					</span>
+
+				</div>
+			</div>
+
+		</div>
+	</form>
+	<div class="list-group " *ngFor="let question of questions" (click)="goToDetailPage(question.id)">
+		<a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+			<div class="d-flex w-100 justify-content-between">
+				<h5 class="mb-1">{{question.body}}</h5>
+			</div>
+			<p class="mb-1">Created by: {{question.createdBy}}</p>
+			<small>Created on: {{question.createdDate}}</small>
+		</a>
+	</div>
+</div>
