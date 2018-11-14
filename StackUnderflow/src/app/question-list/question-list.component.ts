@@ -31,7 +31,8 @@ export class QuestionListComponent implements OnInit, OnDestroy {
 	}
 
 	goToDetailPage(questionId: number) {
-		this.router.navigate([`/questions/${questionId}`]);
+		console.log('should be routing');
+		this.router.navigate([`/questions/${questionId}`],  { queryParams: { questionId: questionId } });
 	}
 
 	createQuestion() {
